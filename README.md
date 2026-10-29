@@ -1,3 +1,5 @@
+> Fork purpose, attribution and qualification limits: [FORK_SCOPE.md](FORK_SCOPE.md).
+
 # Welcome!
 
 This repository contains tutorial materials (for the most part, as Python notebooks) that are developed to help you learn about [NCI Imaging Data Commons](https://imaging.datacommons.cancer.gov) and utilize it in your work.
