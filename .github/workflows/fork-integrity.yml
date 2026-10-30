@@ -1,0 +1,31 @@
+name: Fork notebook integrity
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /README.md
+            /FORK_SCOPE.md
+            /requirements-ci.*
+            /.ci/
+            /test/src/check_notebook_standards.py
+            /notebooks/**/*.ipynb
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+      - run: python -m pip install --require-hashes -r requirements-ci.lock
+      - run: python -m pip check
+      - run: python -m pip_audit --no-deps --disable-pip --strict -r requirements-ci.lock
+      - run: python .ci/validate_notebooks.py
+      - run: python test/src/check_notebook_standards.py
