@@ -5,6 +5,8 @@ on:
       - cron: "0 0 * * *"  
 jobs:
     keep-alive:
+        # Upstream infrastructure publishes cloud images or maintains its own branch.
+        if: github.repository == 'ImagingDataCommons/IDC-Tutorials'
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v4
